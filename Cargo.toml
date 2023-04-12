@@ -1,5 +1,5 @@
 [package]
-name = "voxel_mesher_rs"
+name = "voxel-mesher"
 version = "0.1.0"
 edition = "2021"
 
