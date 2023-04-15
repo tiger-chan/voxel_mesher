@@ -11,22 +11,24 @@ fn configure_quad(q: &mut Quad, uvs: [Vec2<f32>; 4]) {
     q.uv = uvs;
 }
 
+#[cfg(feature = "top-left-uv")]
 fn gen_uvs() -> [Vec2<f32>; 4] {
-    if cfg!(not(feature = "uv_bottom_left_origin")) {
-        [
-            Vec2::new(0.0, 0.0), // UV Bottom Left
-            Vec2::new(1.0, 0.0), // UV Bottom Right
-            Vec2::new(1.0, 1.0), // UV Top Right
-            Vec2::new(0.0, 1.0), // UV Top Left
-        ]
-    } else {
-        [
-            Vec2::new(0.0, 1.0), // UV Bottom Left
-            Vec2::new(1.0, 1.0), // UV Bottom Right
-            Vec2::new(1.0, 0.0), // UV Top Right
-            Vec2::new(0.0, 0.0), // UV Top Left
-        ]
-    }
+	[
+		Vec2::new(0.0, 0.0), // UV Bottom Left
+		Vec2::new(1.0, 0.0), // UV Bottom Right
+		Vec2::new(1.0, 1.0), // UV Top Right
+		Vec2::new(0.0, 1.0), // UV Top Left
+	]
+}
+
+#[cfg(feature = "bottom-left-uv")]
+fn gen_uvs() -> [Vec2<f32>; 4] {
+	[
+		Vec2::new(0.0, 1.0), // UV Bottom Left
+		Vec2::new(1.0, 1.0), // UV Bottom Right
+		Vec2::new(1.0, 0.0), // UV Top Right
+		Vec2::new(0.0, 0.0), // UV Top Left
+	]
 }
 
 pub fn unit_cube(faces: &[Vec3<i32>; Face::SIZE]) -> [Quad; Face::SIZE] {

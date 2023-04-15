@@ -18,15 +18,17 @@ impl Quad {
         }
     }
 
-    pub fn ccw_tri_indices(&self) -> [usize; 6] {
-		[
+    #[cfg(feature = "ccw-winding")]
+    pub fn triangles(&self) -> [usize; 6] {
+        [
             2, 1, 0, // first triangle
             3, 2, 0, // second triangle
         ]
     }
 
-    pub fn cw_tri_indices(&self) -> [usize; 6] {
-		[
+    #[cfg(feature = "cw-winding")]
+    pub fn triangles(&self) -> [usize; 6] {
+        [
             0, 1, 2, // first triangle
             0, 2, 3, // second triangle
         ]

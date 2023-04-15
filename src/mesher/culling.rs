@@ -1,8 +1,21 @@
 use crate::cube::unit_cube;
-use crate::math;
 
 use super::*;
 use super::{Face, Vec3};
+
+#[cfg(feature = "right-hand-y-up")]
+fn get_default_orientation() -> [Vec3<i32>; Face::SIZE] {
+    use crate::RIGHT_HAND_Y_UP;
+
+    RIGHT_HAND_Y_UP
+}
+
+#[cfg(feature = "left-hand-y-up")]
+fn get_default_orientation() -> [Vec3<i32>; Face::SIZE] {
+    use crate::LEFT_HAND_Y_UP;
+
+    LEFT_HAND_Y_UP
+}
 
 /// ## Quads per Face
 ///
@@ -21,12 +34,12 @@ pub struct Culling {
 }
 
 impl Culling {
-    pub fn new(w: usize, h: usize, d: usize, faces: [Vec3<i32>; Face::SIZE]) -> Self {
+    pub fn new(w: usize, h: usize, d: usize) -> Self {
         Culling {
             width: w,
             height: h,
             depth: d,
-            faces: faces,
+            faces: get_default_orientation(),
         }
     }
 
@@ -140,14 +153,6 @@ impl Mesher for Culling {
 
                             for p in face.points.iter_mut() {
                                 *p = *p + vert;
-                            }
-
-                            let uv_space = [
-                                math::lerp(face.uv[0], face.uv[2], Vec2::new(0.0, 0.0)),
-                                math::lerp(face.uv[0], face.uv[2], Vec2::new(1.0, 1.0)),
-                            ];
-                            for uv in face.uv.iter_mut() {
-                                *uv = math::lerp(uv_space[0], uv_space[1], *uv);
                             }
 
                             result.quads.push(face);
